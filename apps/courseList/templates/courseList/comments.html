@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Course Comments</title>
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+    </head>
+    <body>
+        <div class="container">
+          <div class="jumbotron">
+
+
+          {% if messages %}
+          {% for message in messages %}
+          <h2>{{ message }}</h2>
+          {% endfor %}
+          {% endif %}
+            <h2>Comments for '{{course.name}}':</h2>
+
+            {% if not comments %}
+            <h4><span>No comments for this course yet.<span></h4>
+            {% else %}
+            {% for comment in comments %}
+                <hr>
+                <div class="comment">
+                    <h6>Comment added on {{comment.created_at}}</h6>
+                    <h2>{{comment.comment}}</h2>
+                </div>
+            {% endfor %}
+            {% endif %}
+            </div>
+        </div>
+        <hr>
+        <div class="add-comment">
+            <h2>Add a comment: </h2>
+            <form action='/addcomment' method='post'>
+                {% csrf_token %}
+                <input type="hidden" name="id" value="{{course.id}}">
+                <textarea name="commentbox" rows="5" cols="30"></textarea>
+                <input type="Submit" id="Add" value="Add comment" class="button">
+            </form>
+        </div>
+        <div class="footer">
+            <form action='/' method='POST'>
+                {% csrf_token %}
+                <input type="submit" value="Go home" class="button">
+            </form>
+        </div>
+    </body>
+</html>

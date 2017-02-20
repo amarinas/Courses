@@ -1,0 +1,13 @@
+/* CSS Reset */
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.container {
+  background-color: yellow;
+}
+
+h2{
+  color: red;
+}

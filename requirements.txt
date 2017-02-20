@@ -1,0 +1,6 @@
+appdirs==1.4.0
+Django==1.10.5
+-e git+https://github.com/django-extensions/django-extensions.git@94c6cc95a53a5ebd7277db7b19bb93a7953b8fe4#egg=django_extensions
+packaging==16.8
+pyparsing==2.1.10
+six==1.10.0

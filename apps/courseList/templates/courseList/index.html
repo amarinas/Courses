@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Courses</title>
+        <!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+{% load staticfiles %}
+<link rel="stylesheet" type="text/css" href={% static 'courseList/stylesheets/index.css' %}>
+    </head>
+    <body>
+        <div class="container">
+          <div class="jumbotron">
+
+
+            <form action='/addCourse' method='post' class="display-2">
+                {% csrf_token %}
+                <h3>Add A Course:</h3>
+                {% if messages %}
+                {% for message in messages %}
+                <h2>{{ message }}</h2>
+                {% endfor %}
+                {% endif %}
+                <ul class="list-inline">
+                  <li class="list-inline-item">Name of the course: </li>
+                  <input type="text" name="name">
+                  <li class="list-inline-item">Descriptions: </li>
+                  <textarea name="description" rows="4" cols="50" placeholder="What do you learn from this new course??"></textarea>
+                </ul>
+                <p>
+                    <input type="Submit" value="Add Me Now" class="btn">
+                </p>
+            </form>
+
+        </div>
+        <hr>
+        <div class="table table-condensed">
+            <h3>Courses</h3>
+            <table>
+                <thead>
+                  <tr>
+                    <th>Course Name</th>
+                    <th>Description</th>
+                    <th>Date Added</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                {% if not courses %}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {% endif %}
+                {% for course in courses %}
+                <tr>
+                    <td>{{course.name}}</td>
+                    {% for description in descriptions %}
+                        {% if description.course_id == course %}
+                            {% if not description.description %}
+                    <td><span>No description provided.</span></td>
+                            {% else %}
+                    <td>{{description.description}}</td>
+                            {% endif %}
+                        {% endif %}
+                    {% endfor %}
+                    <td>{{course.created_at}}</td>
+                    <td>
+                        <a href="/courses/comment/{{course.id}}" class="btn">Comments</a>
+                            <a href="/courses/destroy/{{course.id}}" class="btn">Delete</a>
+                    </td>
+
+                </tr>
+                {% endfor %}
+            </table>
+            </div>
+        </div>
+    </body>
+</html>
